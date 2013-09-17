@@ -353,6 +353,163 @@ var LayoutAddColumnsOperation = AddRowOperation.extend({
 
 CellOperations.registerOperation(new LayoutAddColumnsOperation());
 
+var LayoutBootstrapButtonModel = BaseModel.extend({},{
+	MODEL: 'BootstrapButton',
+	getStub: function(){
+		var _stub = {
+			id: TableManager.generateGUID(),
+			type: LayoutBootstrapButtonModel.MODEL,
+			typeDesc: "Bootstrap Button",
+			parent: IndexManager.ROOTID,
+			properties: []
+		};
+
+		_stub.properties.push(PropertiesManager.getProperty("name"));
+		_stub.properties.push(PropertiesManager.getProperty("cssClass"));
+		return _stub;
+	}
+});
+BaseModel.registerModel(LayoutBootstrapButtonModel);
+
+var LayoutBootstrapMultiButtonModel = BaseModel.extend({},{
+	MODEL: 'BootstrapMultiButton',
+	getStub: function(){
+		var _stub = {
+			id: TableManager.generateGUID(),
+			type: LayoutBootstrapMultiButtonModel.MODEL,
+			typeDesc: "Bootstrap Multi-Button",
+			parent: IndexManager.ROOTID,
+			properties: []
+		};
+
+		_stub.properties.push(PropertiesManager.getProperty("name"));
+		_stub.properties.push(PropertiesManager.getProperty("cssClass"));
+		return _stub;
+	}
+});
+BaseModel.registerModel(LayoutBootstrapMultiButtonModel);
+
+var LayoutBootstrapInputModel = BaseModel.extend({},{
+	MODEL: 'BootstrapInput',
+	getStub: function(){
+		var _stub = {
+			id: TableManager.generateGUID(),
+			type: LayoutBootstrapInputModel.MODEL,
+			typeDesc: "Bootstrap Input",
+			parent: IndexManager.ROOTID,
+			properties: []
+		};
+
+		_stub.properties.push(PropertiesManager.getProperty("name"));
+		_stub.properties.push(PropertiesManager.getProperty("cssClass"));
+		return _stub;
+	}
+});
+BaseModel.registerModel(LayoutBootstrapInputModel);
+
+var LayoutBootstrapDropdownModel = BaseModel.extend({},{
+	MODEL: 'BootstrapDropdown',
+	getStub: function(){
+		var _stub = {
+			id: TableManager.generateGUID(),
+			type: LayoutBootstrapDropdownModel.MODEL,
+			typeDesc: "Bootstrap Dropdown",
+			parent: IndexManager.ROOTID,
+			properties: []
+		};
+
+		_stub.properties.push(PropertiesManager.getProperty("name"));
+		_stub.properties.push(PropertiesManager.getProperty("cssClass"));
+		return _stub;
+	}
+});
+BaseModel.registerModel(LayoutBootstrapDropdownModel);
+
+var LayoutAddBootstrapOperation = AddRowOperation.extend({
+
+		id: "LAYOUT_ADD_BOOTSTRAP",
+		types: [LayoutRowModel.MODEL, LayoutColumnModel.MODEL,
+			LayoutBootstrapButtonModel.MODEL, 
+			LayoutBootstrapInputModel.MODEL,
+			LayoutBootstrapDropdownModel.MODEL,
+			LayoutBootstrapMultiButtonModel.MODEL ],
+		name: "Add Bootstrap",
+		description: "Adds a bootstrap node",
+		icon: "getResource?resource=/images/NAV/spacer.png",
+		hoverIcon: "getResource?resource=/images/NAV/spacer_mouseover.png",
+		clickIcon: "getResource?resource=/images/NAV/spacer_onclick.png",
+
+		constructor: function(){
+			this.logger = new Logger("LayoutAddBootstrapOperation");
+		},
+
+		execute: function(tableManager){
+			var myself = this;
+			$.prompt("Choose the bootstrap component you want to add", 
+				{
+					title: "Are you Ready?",
+					buttons: { 
+						"Cancel": false,
+						"Button": "button", 
+						"Input": "input",
+						"Dropdown": "dropdown",
+						"Multibutton": "multibutton"
+					},
+					submit: function(e){
+						var _stub;
+						if(e == "button"){
+							_stub = LayoutBootstrapButtonModel.getStub();
+						} else if(e == "input"){
+							_stub = LayoutBootstrapInputModel.getStub();
+						} else if(e == "dropdown"){
+							_stub = LayoutBootstrapDropdownModel.getStub();
+						} else if(e == "multibutton"){
+							_stub = LayoutBootstrapMultiButtonModel.getStub();
+						}
+
+						if(e != false){
+						var indexManager = tableManager.getTableModel().getIndexManager();
+
+						var rowIdx = tableManager.getSelectedCell()[0];
+						var colIdx = tableManager.getSelectedCell()[1];
+						var rowId = tableManager.getTableModel().getEvaluatedId(rowIdx);
+						var rowType = tableManager.getTableModel().getEvaluatedRowType(rowIdx);
+						var insertAtIdx;
+
+						var nextSibling = indexManager.getNextSibling(rowId);
+						if (typeof nextSibling == 'undefined'){
+							insertAtIdx = indexManager.getLastChild(rowId).index + 1;
+						}
+						else{
+							insertAtIdx = nextSibling.index;
+						}
+
+						//if(rowType == LayoutRowModel.MODEL || rowType == LayoutSpaceModel.MODEL){
+						//	_stub.parent = indexManager.getIndex()[rowId].parent;
+						//}
+						//else if (rowType == LayoutColumnModel.MODEL){
+							_stub.parent = rowId;
+						//}
+						//else{
+							// insert at the end
+						//	insertAtIdx = tableManager.getTableModel().getData().length;
+						//}
+
+						myself.logger.debug("Inserting bootstrap node after at " + insertAtIdx);
+						tableManager.insertAtIdx(_stub,insertAtIdx);
+					}
+						
+					}
+				});	
+
+			// Add a row on the specified position;
+
+			
+			
+		}
+});
+CellOperations.registerOperation(new LayoutAddBootstrapOperation());
+
 
 var LayoutSpaceModel = BaseModel.extend({
 	},{
