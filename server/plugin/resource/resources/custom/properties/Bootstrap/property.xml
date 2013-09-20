@@ -1,0 +1,137 @@
+<DesignerProperties>
+    <!-- Input properties -->
+    <DesignerProperty>
+        <Header>
+            <Name>bootstrapInitialContent</Name>
+            <Parent>BaseProperty</Parent>
+            <DefaultValue></DefaultValue>
+            <Description>Initial Content</Description>
+            <Tooltip>Bootstrap Initial Content of input</Tooltip>
+            <InputType>String</InputType>
+            <OutputType>String</OutputType>
+            <Order>450</Order>
+            <Advanced>true</Advanced>
+            <Version>2.0</Version>
+        </Header>
+    </DesignerProperty>
+    <DesignerProperty>
+        <Header>
+            <Name>bootstrapInputType</Name>
+            <Parent>BaseProperty</Parent>
+            <DefaultValue>text</DefaultValue>
+            <Description>Type</Description>
+            <Tooltip>Bootstrap Input Type</Tooltip>
+            <InputType type="valuelist"/>
+            <OutputType>String</OutputType>
+            <Order>450</Order>
+            <Advanced>true</Advanced>
+            <Version>2.0</Version>
+        </Header>
+        <Values>
+            <Value display="Text">text</Value>
+            <Value display="Checkbox">checkbox</Value>
+            <Value display="Radio">radio</Value>
+        </Values>
+    </DesignerProperty>
+
+
+    <!-- Button properties -->
+    <DesignerProperty>
+        <Header>
+            <Name>bootstrapText</Name>
+            <Parent>BaseProperty</Parent>
+            <DefaultValue></DefaultValue>
+            <Description>Text</Description>
+            <Tooltip>Bootstrap Text of Buttons</Tooltip>
+            <InputType>String</InputType>
+            <OutputType>String</OutputType>
+            <Order>450</Order>
+            <Advanced>true</Advanced>
+            <Version>2.0</Version>
+        </Header>
+    </DesignerProperty>
+
+    <DesignerProperty>
+        <Header>
+            <Name>bootstrapStyle</Name>
+            <Parent>BaseProperty</Parent>
+            <DefaultValue>btn-default</DefaultValue>
+            <Description>Style</Description>
+            <Tooltip>Bootstrap Style of Buttons</Tooltip>
+            <InputType type="valuelist"/>
+            <OutputType>String</OutputType>
+            <Order>450</Order>
+            <Advanced>true</Advanced>
+            <Version>2.0</Version>
+        </Header>
+        <Values>
+            <Value display="Default">btn-default</Value>
+            <Value display="Primary">btn-primary</Value>
+            <Value display="Success">btn-success</Value>
+            <Value display="Info">btn-info</Value>
+            <Value display="Warning">btn-warning</Value>
+            <Value display="Danger">btn-danger</Value>
+        </Values>
+    </DesignerProperty>
+
+
+    <!-- Multibutton properties -->
+    <DesignerProperty>
+        <Header>
+            <Name>boostrapSize</Name>
+            <Parent>BaseProperty</Parent>
+            <DefaultValue></DefaultValue>
+            <Description>Size</Description>
+            <Tooltip>Bootstrap Size of Buttons</Tooltip>
+            <InputType type="valuelist"/>
+            <OutputType>String</OutputType>
+            <Order>450</Order>
+            <Advanced>true</Advanced>
+            <Version>2.0</Version>
+        </Header>
+        <Values>
+            <Value display="Large">btn-group-lg</Value>
+            <Value display="Normal"></Value>
+            <Value display="Small">btn-group-sm</Value>
+            <Value display="Extra Small">btn-group-xs</Value>
+        </Values>
+    </DesignerProperty>
+
+
+    <DesignerProperty>
+        <Header>
+            <Name>bootstrapOrientation</Name>
+            <Parent>BaseProperty</Parent>
+            <DefaultValue></DefaultValue>
+            <Description>Orientation</Description>
+            <Tooltip>Bootstrap Multibutton Orientation</Tooltip>
+            <InputType type="valuelist"/>
+            <OutputType>String</OutputType>
+            <Order>450</Order>
+            <Advanced>true</Advanced>
+            <Version>2.0</Version>
+        </Header>
+        <Values>
+            <Value display="Horizontal"></Value>
+            <Value display="Vertical">btn-group-vertical</Value>
+        </Values>
+    </DesignerProperty>
+
+
+    <DesignerProperty>
+        <Header>
+            <Name>bootstrapJustification</Name>
+            <Parent>BaseProperty</Parent>
+            <DefaultValue>false</DefaultValue>
+            <Description>Justified</Description>
+            <Tooltip>Bootstrap Multibutton Justification</Tooltip>
+            <InputType>Boolean</InputType>
+            <OutputType>Boolean</OutputType>
+            <Order>450</Order>
+            <Advanced>true</Advanced>
+            <Version>2.0</Version>
+        </Header>
+    </DesignerProperty>
+
+
+</DesignerProperties>

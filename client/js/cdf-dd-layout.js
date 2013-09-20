@@ -46,8 +46,14 @@ var LayoutPanel = Panel.extend({
             var treeTableModel = new TableModel('layoutTreeTableModel');
             treeTableModel.setColumnNames(['Type','Name']);
             treeTableModel.setColumnGetExpressions([
-                function(row){return row.typeDesc},
-                function(row){return row.properties[0].value}
+                function(row){
+                	return row.typeDesc
+                },
+                function(row){
+                	if(row.properties[0] != undefined)
+                		return row.properties[0].value;
+                	else return null;	
+                }
                 ]);
             treeTableModel.setColumnTypes(['String','String']);
             var rowId = function(row){return row.id};
@@ -366,6 +372,8 @@ var LayoutBootstrapButtonModel = BaseModel.extend({},{
 
 		_stub.properties.push(PropertiesManager.getProperty("name"));
 		_stub.properties.push(PropertiesManager.getProperty("cssClass"));
+		_stub.properties.push(PropertiesManager.getProperty("bootstrapText"));
+		_stub.properties.push(PropertiesManager.getProperty("bootstrapStyle"));
 		return _stub;
 	}
 });
@@ -384,6 +392,8 @@ var LayoutBootstrapMultiButtonModel = BaseModel.extend({},{
 
 		_stub.properties.push(PropertiesManager.getProperty("name"));
 		_stub.properties.push(PropertiesManager.getProperty("cssClass"));
+		_stub.properties.push(PropertiesManager.getProperty("boostrapSize"));
+		_stub.properties.push(PropertiesManager.getProperty("bootstrapOrientation"));
 		return _stub;
 	}
 });
@@ -402,10 +412,49 @@ var LayoutBootstrapInputModel = BaseModel.extend({},{
 
 		_stub.properties.push(PropertiesManager.getProperty("name"));
 		_stub.properties.push(PropertiesManager.getProperty("cssClass"));
+		_stub.properties.push(PropertiesManager.getProperty("bootstrapInitialContent"));
+		_stub.properties.push(PropertiesManager.getProperty("bootstrapInputType"));
 		return _stub;
 	}
 });
 BaseModel.registerModel(LayoutBootstrapInputModel);
+
+var LayoutBootstrapInputGroupModel = BaseModel.extend({},{
+	MODEL: 'BootstrapInputGroup',
+	getStub: function(){
+		var _stub = {
+			id: TableManager.generateGUID(),
+			type: LayoutBootstrapInputGroupModel.MODEL,
+			typeDesc: "Bootstrap Input Group",
+			parent: IndexManager.ROOTID,
+			properties: []
+		};
+
+		_stub.properties.push(PropertiesManager.getProperty("name"));
+		_stub.properties.push(PropertiesManager.getProperty("cssClass"));
+		return _stub;
+	}
+});
+BaseModel.registerModel(LayoutBootstrapInputModel);
+
+var LayoutBootstrapInputGroupAddonModel = BaseModel.extend({},{
+	MODEL: 'BootstrapInputGroupAddon',
+	getStub: function(){
+		var _stub = {
+			id: TableManager.generateGUID(),
+			type: LayoutBootstrapInputGroupAddonModel.MODEL,
+			typeDesc: "Bootstrap Input Group Addon",
+			parent: IndexManager.ROOTID,
+			properties: []
+		};
+
+		_stub.properties.push(PropertiesManager.getProperty("name"));
+		_stub.properties.push(PropertiesManager.getProperty("cssClass"));
+		_stub.properties.push(PropertiesManager.getProperty("bootstrapText"));
+		return _stub;
+	}
+});
+BaseModel.registerModel(LayoutBootstrapInputGroupAddonModel);
 
 var LayoutBootstrapDropdownModel = BaseModel.extend({},{
 	MODEL: 'BootstrapDropdown',
@@ -451,21 +500,25 @@ var LayoutAddBootstrapOperation = AddRowOperation.extend({
 					buttons: { 
 						"Cancel": false,
 						"Button": "button", 
+						"Multibutton": "multibutton",
 						"Input": "input",
-						"Dropdown": "dropdown",
-						"Multibutton": "multibutton"
+						"InputGroup": "inputGroup",
+						"InputGroupAddon": "inputGroupAddon",
+						"Dropdown": "dropdown"
 					},
 					submit: function(e){
 						var _stub;
 						if(e == "button"){
 							_stub = LayoutBootstrapButtonModel.getStub();
-						} else if(e == "input"){
-							_stub = LayoutBootstrapInputModel.getStub();
-						} else if(e == "dropdown"){
-							_stub = LayoutBootstrapDropdownModel.getStub();
 						} else if(e == "multibutton"){
 							_stub = LayoutBootstrapMultiButtonModel.getStub();
-						}
+						} else if(e == "input"){
+							_stub = LayoutBootstrapInputModel.getStub();
+						} else if(e == "inputGroup"){
+							_stub = LayoutBootstrapInputGroupModel.getStub();
+						} else if(e == "inputGroupAddon"){
+							_stub = LayoutBootstrapInputGroupAddonModel.getStub();
+						} 
 
 						if(e != false){
 						var indexManager = tableManager.getTableModel().getIndexManager();
@@ -860,7 +913,12 @@ var LayoutMoveUpOperation = MoveUpOperation.extend({
 
 		id: "LAYOUT_MOVE_UP",
 		types: [LayoutRowModel.MODEL,LayoutColumnModel.MODEL,LayoutSpaceModel.MODEL,LayoutImageModel.MODEL,LayoutHtmlModel.MODEL,
-                  LayoutCarouselModel.MODEL,FilterBlockModel.MODEL,FilterRowModel.MODEL,FilterHeaderModel.MODEL, LayoutResourceModel.MODEL],
+                  LayoutCarouselModel.MODEL,FilterBlockModel.MODEL,FilterRowModel.MODEL,FilterHeaderModel.MODEL, LayoutResourceModel.MODEL,
+                  LayoutBootstrapMultiButtonModel.MODEL,
+                  LayoutBootstrapButtonModel.MODEL,
+                  LayoutBootstrapInputModel.MODEL,
+                  LayoutBootstrapInputGroupModel.MODEL,
+                  LayoutBootstrapInputGroupAddonModel.MODEL],
 
 		constructor: function(){
 			this.logger = new Logger("LayoutMoveUpOperation");
@@ -875,7 +933,12 @@ var LayoutMoveDownOperation = MoveDownOperation.extend({
 
 		id: "LAYOUT_MOVE_DOWN",
 		types: [LayoutRowModel.MODEL,LayoutColumnModel.MODEL,LayoutSpaceModel.MODEL,LayoutImageModel.MODEL,LayoutHtmlModel.MODEL,
-                  LayoutCarouselModel.MODEL,FilterBlockModel.MODEL,FilterRowModel.MODEL,FilterHeaderModel.MODEL, LayoutResourceModel.MODEL],
+                  LayoutCarouselModel.MODEL,FilterBlockModel.MODEL,FilterRowModel.MODEL,FilterHeaderModel.MODEL, LayoutResourceModel.MODEL,
+                  LayoutBootstrapMultiButtonModel.MODEL,
+                  LayoutBootstrapButtonModel.MODEL,
+                  LayoutBootstrapInputModel.MODEL,
+                  LayoutBootstrapInputGroupModel.MODEL,
+                  LayoutBootstrapInputGroupAddonModel.MODEL],
 
 		constructor: function(){
 			this.logger = new Logger("LayoutMoveDownOperation");
@@ -893,7 +956,12 @@ var LayoutDeleteOperation = DeleteOperation.extend({
                   LayoutSpaceModel.MODEL,LayoutImageModel.MODEL,
                   LayoutHtmlModel.MODEL,LayoutResourceModel.MODEL,
                   LayoutCarouselModel.MODEL,FilterBlockModel.MODEL,
-                  FilterRowModel.MODEL,FilterHeaderModel.MODEL],
+                  FilterRowModel.MODEL,FilterHeaderModel.MODEL,
+                  LayoutBootstrapMultiButtonModel.MODEL,
+                  LayoutBootstrapButtonModel.MODEL,
+                  LayoutBootstrapInputModel.MODEL,
+                  LayoutBootstrapInputGroupModel.MODEL,
+                  LayoutBootstrapInputGroupAddonModel.MODEL],
 
 		constructor: function(){
 			this.logger = new Logger("LayoutDeleteOperation");
