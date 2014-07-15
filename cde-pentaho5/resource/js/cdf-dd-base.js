@@ -26,7 +26,7 @@ wd.cde.endpoints = {
 
     //The webAppPath is defined at the start of Dashboards.js
     getWebappBasePath: function () {
-        return webAppPath;
+        return Dashboards.getWebAppPath();
     },
 
     getStaticUrl: function () {
